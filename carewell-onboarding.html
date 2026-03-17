@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carewell Onboarding Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dp: #260080; --mid: #5825E5; --light: #9E8FFF;
+  --pale: #C8C0FF; --bg: #F0EEFF; --white: #fff;
+  --dark: #191726; --gray: #F7F7F7;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Figtree',sans-serif;background:#fff;color:var(--dark);overflow-x:hidden;}
+
+#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(38,0,128,0.97);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px;box-shadow:0 2px 20px rgba(0,0,0,0.3);}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo .heart-anim{animation:heartbeat 1.5s ease-in-out infinite;}
+@keyframes heartbeat{0%,100%{transform:scale(1);}50%{transform:scale(1.15);}}
+.nav-logo span{color:white;font-weight:800;font-size:1.1rem;}
+.nav-links{display:flex;gap:1.5rem;}
+.nav-links a{color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.82rem;font-weight:600;transition:color 0.2s;padding:0.3rem 0;border-bottom:2px solid transparent;}
+.nav-links a:hover{color:white;border-bottom-color:var(--light);}
+
+.hero{min-height:100vh;background:linear-gradient(135deg,var(--dp) 0%,var(--mid) 55%,var(--light) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 2rem 60px;position:relative;overflow:hidden;text-align:center;}
+.hero-orb{position:absolute;border-radius:50%;pointer-events:none;}
+.hero-orb-1{width:500px;height:500px;top:-150px;right:-150px;background:rgba(255,255,255,0.05);animation:float 8s ease-in-out infinite;}
+.hero-orb-2{width:350px;height:350px;bottom:-100px;left:-80px;background:rgba(255,255,255,0.04);animation:float 10s ease-in-out infinite reverse;}
+.hero-orb-3{width:200px;height:200px;top:30%;left:5%;background:rgba(255,255,255,0.03);animation:float 6s ease-in-out infinite 2s;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-20px);}}
+
+.hero-badge{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:white;padding:0.4rem 1.2rem;border-radius:30px;font-size:0.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:2rem;display:inline-block;animation:fadeUp 0.8s ease both;}
+.hero h1{color:white;font-size:3.8rem;font-weight:900;line-height:1.1;margin-bottom:1.2rem;animation:fadeUp 0.8s ease 0.2s both;}
+.hero h1 span{background:linear-gradient(90deg,#fff,var(--pale));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{color:rgba(255,255,255,0.85);font-size:1.15rem;max-width:580px;line-height:1.7;margin-bottom:2.5rem;animation:fadeUp 0.8s ease 0.4s both;}
+.hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.8s ease 0.6s both;}
+.btn-primary{background:white;color:var(--dp);padding:0.85rem 2rem;border-radius:30px;font-weight:800;font-size:0.95rem;text-decoration:none;transition:all 0.2s;box-shadow:0 4px 20px rgba(0,0,0,0.2);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.3);}
+.btn-ghost{background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.4);color:white;padding:0.85rem 2rem;border-radius:30px;font-weight:700;font-size:0.95rem;text-decoration:none;transition:all 0.2s;}
+.btn-ghost:hover{background:rgba(255,255,255,0.25);}
+
+.hero-stats{display:flex;gap:3rem;margin-top:4rem;animation:fadeUp 0.8s ease 0.8s both;}
+.hero-stat{text-align:center;}
+.hero-stat-val{font-size:2.5rem;font-weight:900;color:white;}
+.hero-stat-label{font-size:0.8rem;color:rgba(255,255,255,0.7);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
+
+.scroll-indicator{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);animation:bounce 2s infinite;}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);}}
+.scroll-indicator svg{opacity:0.6;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+.section{padding:5rem 2rem;max-width:980px;margin:0 auto;}
+.section-num{color:var(--mid);font-weight:700;font-size:0.82rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.5rem;}
+.section-title{font-size:2.2rem;font-weight:900;color:var(--dark);line-height:1.2;}
+.section-sub{color:#666;margin-top:0.6rem;font-size:1rem;line-height:1.7;max-width:600px;}
+.section-header{margin-bottom:2.5rem;}
+hr.divider{border:none;border-top:1px solid #eee;}
+
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+.mission-strip{background:linear-gradient(135deg,var(--dp),var(--mid));padding:4rem 2rem;text-align:center;color:white;}
+.mission-strip h2{font-size:1.8rem;font-weight:900;max-width:700px;margin:0 auto 1rem;line-height:1.4;}
+.mission-strip p{opacity:0.85;max-width:580px;margin:0 auto;line-height:1.7;}
+
+.stats-bar{display:grid;grid-template-columns:repeat(3,1fr);background:var(--dp);}
+.stat-b{padding:2.5rem 1rem;text-align:center;border-right:1px solid rgba(255,255,255,0.1);}
+.stat-b:last-child{border-right:none;}
+.stat-b-val{font-size:2.8rem;font-weight:900;color:white;}
+.stat-b-label{font-size:0.82rem;color:rgba(255,255,255,0.65);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-top:0.3rem;}
+
+/* CARD GRID — force 2x2 for 4 items, 3-col for others */
+.card-grid{display:grid;gap:1.5rem;}
+.card-grid-4{grid-template-columns:repeat(2,1fr);}
+.card-grid-auto{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.card{background:var(--bg);border-radius:20px;padding:2rem;border:1px solid var(--pale);transition:all 0.3s;}
+.card:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(88,37,229,0.15);border-color:var(--light);}
+.card-icon{width:50px;height:50px;background:var(--mid);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;font-size:1.4rem;}
+.card h3{font-size:1rem;font-weight:800;color:var(--dp);margin-bottom:0.5rem;}
+.card p{font-size:0.88rem;color:#555;line-height:1.65;}
+
+.pillars{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;}
+.pillar{background:white;border:2px solid var(--pale);border-radius:20px;padding:1.8rem 1.2rem;text-align:center;transition:all 0.3s;position:relative;overflow:hidden;}
+.pillar::before{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--mid),var(--light));}
+.pillar:hover{border-color:var(--mid);transform:translateY(-4px);box-shadow:0 8px 30px rgba(88,37,229,0.12);}
+.pillar-num{font-size:2.5rem;font-weight:900;color:var(--pale);margin-bottom:0.5rem;line-height:1;}
+.pillar h4{font-size:0.9rem;font-weight:800;color:var(--dp);margin-bottom:0.4rem;}
+.pillar p{font-size:0.78rem;color:#666;line-height:1.5;}
+
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;}
+.principle{display:flex;gap:1rem;padding:1.3rem;border-radius:14px;background:var(--gray);transition:all 0.2s;}
+.principle:hover{background:var(--bg);}
+.pnum{flex-shrink:0;width:38px;height:38px;background:linear-gradient(135deg,var(--dp),var(--mid));color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9rem;}
+.principle h4{font-size:0.95rem;font-weight:800;color:var(--dp);margin-bottom:0.3rem;}
+.principle p{font-size:0.83rem;color:#555;line-height:1.5;}
+
+.quote{border-left:4px solid var(--mid);padding:1.2rem 1.8rem;background:var(--bg);border-radius:0 16px 16px 0;margin:2rem 0;font-style:italic;color:#444;line-height:1.8;font-size:1rem;}
+.quote strong{color:var(--dp);font-style:normal;}
+
+.highlight{background:linear-gradient(135deg,var(--dp),var(--mid));border-radius:24px;padding:3rem;color:white;margin:2rem 0;position:relative;overflow:hidden;}
+.highlight::after{content:'💜';position:absolute;right:2rem;bottom:-1rem;font-size:8rem;opacity:0.08;}
+.highlight h3{font-size:1.5rem;font-weight:900;margin-bottom:0.8rem;}
+.highlight p{opacity:0.9;line-height:1.7;max-width:600px;}
+
+.leadership-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;}
+.leader-card{border-radius:20px;overflow:hidden;border:1px solid #eee;transition:all 0.3s;}
+.leader-card:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(88,37,229,0.12);}
+.leader-photo-placeholder{width:100%;aspect-ratio:1;background:linear-gradient(135deg,var(--bg),var(--pale));display:flex;align-items:center;justify-content:center;font-size:3.5rem;}
+.leader-info{padding:1.2rem;}
+.leader-info h4{font-size:0.95rem;font-weight:800;color:var(--dp);}
+.leader-info p{font-size:0.8rem;color:var(--mid);font-weight:600;margin-bottom:0.4rem;}
+.leader-info small{font-size:0.78rem;color:#666;line-height:1.4;}
+
+.timeline{position:relative;padding-left:2.5rem;}
+.timeline::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:2px;background:linear-gradient(var(--mid),var(--light));}
+.titem{position:relative;padding:0 0 2.5rem 2rem;}
+.tdot{position:absolute;left:-2.5rem;top:4px;width:24px;height:24px;border-radius:50%;background:var(--mid);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 4px var(--pale);}
+.tdot::after{content:'';width:8px;height:8px;border-radius:50%;background:white;}
+.titem h4{font-size:1rem;font-weight:800;color:var(--dp);margin-bottom:0.4rem;}
+.titem p{font-size:0.88rem;color:#555;line-height:1.65;}
+
+/* Tools grid — 3 cols for 6 items */
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.tool{border:1px solid #eee;border-radius:16px;padding:1.3rem;text-align:center;transition:all 0.2s;}
+.tool:hover{border-color:var(--light);background:var(--bg);transform:translateY(-3px);}
+.tool-icon{font-size:2rem;margin-bottom:0.6rem;}
+.tool h4{font-size:0.85rem;font-weight:800;color:var(--dark);}
+.tool p{font-size:0.75rem;color:#999;}
+
+.checklist{list-style:none;}
+.checklist li{display:flex;align-items:flex-start;gap:0.8rem;padding:0.85rem 0;border-bottom:1px solid #f0f0f0;font-size:0.9rem;color:#444;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.cb{flex-shrink:0;width:22px;height:22px;border:2px solid var(--light);border-radius:6px;margin-top:1px;}
+.checklist strong{color:var(--dark);}
+
+.brow{display:flex;align-items:flex-start;gap:1.2rem;padding:1.5rem;border-radius:14px;border:1px solid #eee;margin-bottom:0.8rem;transition:all 0.2s;}
+.brow:hover{border-color:var(--pale);background:var(--bg);}
+.bicon{flex-shrink:0;width:50px;height:50px;border-radius:14px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
+.brow h4{font-size:1rem;font-weight:800;color:var(--dark);margin-bottom:0.3rem;}
+.brow p{font-size:0.87rem;color:#555;line-height:1.65;}
+.badge{display:inline-block;background:var(--mid);color:white;font-size:0.72rem;font-weight:700;padding:0.2rem 0.7rem;border-radius:20px;margin-left:0.5rem;vertical-align:middle;}
+.badge-g{background:#5AE0AF;color:#001f14;}
+.badge-o{background:#FFAB1A;color:#3d2800;}
+
+.benefit-cat{font-size:1rem;font-weight:800;color:var(--dp);margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:3px solid var(--pale);display:flex;align-items:center;gap:0.6rem;}
+
+.eq-scenarios{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0;}
+.eq-s{border-radius:16px;padding:1.5rem;text-align:center;border:2px solid #eee;}
+.eq-s.a{border-color:#5AE0AF;background:#f0fff8;}
+.eq-s.b{border-color:var(--light);background:var(--bg);}
+.eq-s.c{border-color:#eee;background:var(--gray);}
+.eq-s-label{font-size:0.78rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.5rem;}
+.eq-s.a .eq-s-label{color:#22a760;}
+.eq-s.b .eq-s-label{color:var(--mid);}
+.eq-s.c .eq-s-label{color:#999;}
+.eq-s-val{font-size:1.8rem;font-weight:900;color:var(--dp);}
+.eq-s-desc{font-size:0.78rem;color:#666;margin-top:0.4rem;line-height:1.4;}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+
+.fto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.fto-card{border-radius:16px;padding:1.5rem;text-align:center;background:var(--bg);border:1px solid var(--pale);}
+.fto-card .fto-icon{font-size:2.5rem;margin-bottom:0.8rem;}
+.fto-card h4{font-size:1rem;font-weight:800;color:var(--dp);margin-bottom:0.4rem;}
+.fto-card p{font-size:0.85rem;color:#555;line-height:1.5;}
+
+/* CLOSING SECTION */
+.closing{background:linear-gradient(135deg,var(--dp) 0%,var(--mid) 60%,var(--light) 100%);padding:6rem 2rem;text-align:center;color:white;position:relative;overflow:hidden;}
+.closing::before{content:'💜';position:absolute;font-size:25rem;opacity:0.04;top:-5rem;left:50%;transform:translateX(-50%);pointer-events:none;}
+.closing h2{font-size:2.8rem;font-weight:900;line-height:1.2;margin-bottom:1.2rem;position:relative;}
+.closing h2 span{background:linear-gradient(90deg,#fff,var(--pale));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.closing p{font-size:1.05rem;opacity:0.9;max-width:600px;margin:0 auto 1.2rem;line-height:1.8;position:relative;}
+.closing-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;max-width:780px;margin:3rem auto 0;position:relative;}
+.closing-card{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:1.8rem 1.2rem;text-align:center;}
+.closing-card .cc-icon{font-size:2.2rem;margin-bottom:0.8rem;}
+.closing-card h4{font-size:0.95rem;font-weight:800;color:white;margin-bottom:0.4rem;}
+.closing-card p{font-size:0.82rem;color:rgba(255,255,255,0.75);line-height:1.5;}
+
+footer{background:var(--dp);color:rgba(255,255,255,0.7);text-align:center;padding:3rem 2rem;position:relative;overflow:hidden;}
+footer::before{content:'💜';position:absolute;font-size:20rem;opacity:0.03;top:-4rem;right:-4rem;}
+.footer-logo{font-size:1.8rem;font-weight:900;color:white;margin-bottom:0.5rem;}
+footer p{font-size:0.85rem;margin-bottom:0.3rem;}
+
+.welcome-banner{background:linear-gradient(90deg,var(--dp),var(--mid));color:white;text-align:center;padding:1rem;font-weight:700;font-size:0.9rem;letter-spacing:0.5px;}
+
+@media(max-width:640px){
+  .two-col{grid-template-columns:1fr;}
+  .hero h1{font-size:2.5rem;}
+  .hero-stats{gap:1.5rem;}
+  .stats-bar{grid-template-columns:1fr;}
+  .eq-scenarios{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+  .pillars{grid-template-columns:repeat(2,1fr);}
+  .card-grid-4{grid-template-columns:1fr;}
+  .tools-grid{grid-template-columns:repeat(2,1fr);}
+  .closing-cards{grid-template-columns:1fr;}
+  .fto-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<div class="welcome-banner">🎉 Welcome to the Carewell Family! We're so glad you're here. 💜</div>
+
+<nav>
+  <div class="nav-logo">
+    <svg class="heart-anim" width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 24s-10-6.3-10-12a6 6 0 0112 0 6 6 0 0112 0c0 5.7-10 12-10 12z" fill="white"/><path d="M9 26c2.5 1.3 5 2 5 2s2.5-.7 5-2" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <span>Carewell</span>
+  </div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#mission">Mission</a>
+    <a href="#leaders">Leadership</a>
+    <a href="#firstweek">First Week</a>
+    <a href="#setup">Setup</a>
+    <a href="#benefits">Benefits</a>
+    <a href="#equity">Equity</a>
+    <a href="#policies">Policies</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <div class="hero-badge">💜 Day One Starts Now</div>
+  <h1>Welcome to the<br><span>Carewell Family</span></h1>
+  <p class="hero-sub">You just joined one of the most mission-driven teams in healthcare. This guide has everything you need to feel at home, hit the ground running, and understand what it truly means to be part of Carewell.</p>
+  <div class="hero-cta">
+    <a href="#firstweek" class="btn-primary">🚀 Start Here</a>
+    <a href="#benefits" class="btn-ghost">View Your Benefits</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-val">#1</div><div class="hero-stat-label">Site Traffic</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">86</div><div class="hero-stat-label">NPS Score</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">5★</div><div class="hero-stat-label">TrustPilot</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">$150B</div><div class="hero-stat-label">Market Opp.</div></div>
+  </div>
+  <div class="scroll-indicator">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar" id="about">
+  <div class="stat-b"><div class="stat-b-val">#1</div><div class="stat-b-label">Home healthcare e-comm</div></div>
+  <div class="stat-b"><div class="stat-b-val">7 Days</div><div class="stat-b-label">Real human care team</div></div>
+  <div class="stat-b"><div class="stat-b-val">100%</div><div class="stat-b-label">Mission-driven</div></div>
+</div>
+
+<!-- ABOUT -->
+<div class="section reveal">
+  <div class="section-header">
+    <div class="section-num">01 — About Carewell</div>
+    <h2 class="section-title">Making caring at home a little easier</h2>
+    <p class="section-sub">Carewell exists to help people and their families manage care at home — with medical supplies, guidance, and real human support. We're not a big-box retailer. We're a knowledgeable friend in healthcare.</p>
+  </div>
+
+  <div class="quote">"Customer service is always great. My orders arrive in one to two days. The variety of products is wonderful. Thank you for being there for so many people. I save money and a lot of time buying from Carewell." <strong>— Deborah, Carewell customer</strong></div>
+
+  <div class="card-grid card-grid-4">
+    <div class="card"><div class="card-icon">🏠</div><h3>Home Healthcare Supplies</h3><p>Products caregivers can't find at their local pharmacy — all in one trusted place, with education and guidance built in.</p></div>
+    <div class="card"><div class="card-icon">🤝</div><h3>Real Human Guidance</h3><p>7-days-a-week care team staffed by real people who genuinely care. We answer the questions customers are embarrassed to Google.</p></div>
+    <div class="card"><div class="card-icon">📦</div><h3>Fast, Free Shipping</h3><p>Caregivers have urgent needs. We get the right products there quickly — with free, hassle-free returns.</p></div>
+    <div class="card"><div class="card-icon">💰</div><h3>Competitive Pricing</h3><p>We match competitors daily and accept FSA/HSA. Trust is built one fair price at a time.</p></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- MISSION -->
+<div id="mission">
+<div class="mission-strip reveal">
+  <h2>"No one else is fighting for caregivers — and we owe it to them to give it our all."</h2>
+  <p>By 2030, all baby boomers will be 65 or older. 1 in 5 Americans is already a family caregiver. 90% of Americans want to remain home as they age. Carewell is the only company building the support system they deserve.</p>
+</div>
+
+<div class="section reveal">
+  <div class="section-header">
+    <div class="section-num">02 — Strategy & Culture</div>
+    <h2 class="section-title">How we win</h2>
+    <p class="section-sub">Our goal is to be the largest health and wellness retailer in the world. We win by delivering the best customer experience in home healthcare — and obsessing over five pillars of excellence.</p>
+  </div>
+
+  <div class="pillars">
+    <div class="pillar"><div class="pillar-num">01</div><h4>Competitive Pricing</h4><p>Match competitors daily. One un-priced item destroys trust.</p></div>
+    <div class="pillar"><div class="pillar-num">02</div><h4>Wide Assortment</h4><p>Every product needed for home care, including specialty items.</p></div>
+    <div class="pillar"><div class="pillar-num">03</div><h4>Fast Free Shipping</h4><p>Urgent needs demand fast, reliable, correct delivery every time.</p></div>
+    <div class="pillar"><div class="pillar-num">04</div><h4>Excellent Service</h4><p>Real people. Quick answers. Expert guidance. No judgment.</p></div>
+    <div class="pillar"><div class="pillar-num">05</div><h4>Above & Beyond</h4><p>Wow customers at every touchpoint — from content to checkout.</p></div>
+  </div>
+
+  <div class="section-header" style="margin-top:3.5rem">
+    <h2 class="section-title">Our 9 operating principles</h2>
+  </div>
+  <div class="principles">
+    <div class="principle"><div class="pnum">1</div><div><h4>Customers first</h4><p>What's best for customers is best for Carewell. Full stop.</p></div></div>
+    <div class="principle"><div class="pnum">2</div><div><h4>Raise the bar</h4><p>Extraordinary expectations for yourself, your team, and results.</p></div></div>
+    <div class="principle"><div class="pnum">3</div><div><h4>Keep it simple</h4><p>Reduce complexity as often as you add. Nimble beats thorough.</p></div></div>
+    <div class="principle"><div class="pnum">4</div><div><h4>Be frugal</h4><p>Every $50 saved is one more customer acquired. Treat it like your own.</p></div></div>
+    <div class="principle"><div class="pnum">5</div><div><h4>Execute, don't ideate</h4><p>Ideas are easy. Doing the hard work is what wins.</p></div></div>
+    <div class="principle"><div class="pnum">6</div><div><h4>High impact only</h4><p>80% of results come from 20% of actions. Minimize the noise.</p></div></div>
+    <div class="principle"><div class="pnum">7</div><div><h4>Think scalably</h4><p>Build foundations that hold when the tidal wave of growth arrives.</p></div></div>
+    <div class="principle"><div class="pnum">8</div><div><h4>Passion wins</h4><p>The team that wants it most fights hardest. Caregivers deserve that.</p></div></div>
+    <div class="principle"><div class="pnum">9</div><div><h4>Paranoia is good</h4><p>The smallest bad experience can go viral. Stay vigilant.</p></div></div>
+  </div>
+</div>
+</div>
+
+<hr class="divider">
+
+<!-- LEADERSHIP -->
+<div id="leaders">
+<div class="section reveal">
+  <div class="section-header">
+    <div class="section-num">03 — Leadership</div>
+    <h2 class="section-title">An experienced team backed by tier-1 investors</h2>
+    <p class="section-sub">Our leadership team brings decades of experience from Chewy, Amazon, and fast-growth e-commerce. You're in great hands.</p>
+  </div>
+
+  <div class="leadership-grid">
+    <div class="leader-card">
+      <img src="https://drive.google.com/thumbnail?id=1ynBbj0MYF1q-TMgPYYKwpbdrR13KFuSs&sz=w400" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">
+      <div class="leader-info">
+        <h4>Bianca Padilla</h4>
+        <p>CEO & Co-founder</p>
+        <small>7+ years in Engineering, Product & Finance. Inc. Magazine Top 100 Female Founders.</small>
+      </div>
+    </div>
+    <div class="leader-card">
+      <img src="https://drive.google.com/thumbnail?id=1JRtfJ6dKK_HN3lfQWevpxpOyefzc7q_7&sz=w400" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">
+      <div class="leader-info">
+        <h4>Jonathan Magolnick</h4>
+        <p>COO & Co-founder</p>
+        <small>10+ years in Operations, Contract Negotiation & Compliance. Forbes' 100 Most Customer-Centric Companies.</small>
+      </div>
+    </div>
+    <div class="leader-card">
+      <img src="https://drive.google.com/thumbnail?id=1PNhFQROzMsUriTUHnHEg7Bn3Pbv0GdMG&sz=w400" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">
+      <div class="leader-info">
+        <h4>Mike Pacifico</h4>
+        <p>Chief Financial Officer</p>
+        <small>15+ years in E-commerce Finance. Former Arteza CFO and Chewy Head of Finance.</small>
+      </div>
+    </div>
+    <div class="leader-card">
+      <img src="https://drive.google.com/thumbnail?id=1DSQEJuP-aR2yBEch6cvjqUMjxLQXiup5&sz=w400" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">
+      <div class="leader-info">
+        <h4>Lauren Pennington</h4>
+        <p>SVP of E-commerce</p>
+        <small>15+ years in Merchandising. Led categories at Chewy and Amazon.</small>
+      </div>
+    </div>
+    <div class="leader-card">
+      <img src="https://drive.google.com/thumbnail?id=16iXFQFdIkkzdG5zKqFI-0mpuiAFUm_aF&sz=w400" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">
+      <div class="leader-info">
+        <h4>Evan Wexler</h4>
+        <p>SVP of Operations</p>
+        <small>20+ years Supply Chain & E-commerce. Chewy, Rent the Runway, Office Depot.</small>
+      </div>
+    </div>
+    <div class="leader-card">
+      <img src="https://drive.google.com/thumbnail?id=1N4zVQO-PMD4-cs6BlretqmOlS8WXULVu&sz=w400" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">
+      <div class="leader-info">
+        <h4>Brianna Maguire</h4>
+        <p>SVP of Customer Experience</p>
+        <small>Nearly 7 years at Carewell across CX, Operations, and Chief of Staff. Built Carewell's Customer Care department from the ground up. Former PM at OneClick.chat; Venture for America Fellow.</small>
+      </div>
+    </div>
+    <div class="leader-card">
+      <img src="https://drive.google.com/thumbnail?id=10w16pam8qclVlbJfAPC_ZUtjm7TNFDx_&sz=w400" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">
+      <div class="leader-info">
+        <h4>Jonathan Valliere</h4>
+        <p>VP of Technology</p>
+        <small>20+ years Engineering & Technology. Former Principal Engineer at eMed.</small>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+</div>
+
+<hr class="divider">
+
+<!-- FIRST WEEK -->
+<div id="firstweek">
+<div class="section reveal">
+  <div class="section-header">
+    <div class="section-num">04 — Your First Week</div>
+    <h2 class="section-title">Let's get you started 🚀</h2>
+    <p class="section-sub">Here's your roadmap for day one and beyond. Don't overthink it — just work through this list and you'll be set up and contributing in no time.</p>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3 style="font-weight:800;color:var(--dp);margin-bottom:1rem;font-size:1.1rem;">Before Day 1</h3>
+      <ul class="checklist">
+        <li><div class="cb"></div><span><strong>Save all laptop packaging</strong> — return shipping isn't covered</span></li>
+        <li><div class="cb"></div><span><strong>Complete device setup</strong> per the IT guide below</span></li>
+        <li><div class="cb"></div><span><strong>Log into Gmail</strong> with your @carewell.com address</span></li>
+        <li><div class="cb"></div><span><strong>Set up LastPass</strong> and create a strong master password</span></li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="font-weight:800;color:var(--dp);margin-bottom:1rem;font-size:1.1rem;">Week 1 Priorities</h3>
+      <ul class="checklist">
+        <li><div class="cb"></div><span><strong>Enroll in benefits</strong> via Rippling (deadline: end of your first month)</span></li>
+        <li><div class="cb"></div><span><strong>Read the Operating Manual</strong> — know the 5 pillars cold</span></li>
+        <li><div class="cb"></div><span><strong>Set up all tools</strong>: Slack, Google Workspace, team apps</span></li>
+        <li><div class="cb"></div><span><strong>Introduce yourself</strong> in your team Slack channel</span></li>
+        <li><div class="cb"></div><span><strong>Meet your manager</strong> and align on your 30-day priorities</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-header" style="margin-top:3rem">
+    <h3 style="font-size:1.2rem;font-weight:900;">How we work every day</h3>
+  </div>
+  <div class="card-grid card-grid-4">
+    <div class="card"><div class="card-icon">💬</div><h3>Slack over email</h3><p>Ask questions in public channels so the whole team has context. DMs are for confidential topics only.</p></div>
+    <div class="card"><div class="card-icon">⚡</div><h3>Move fast</h3><p>High urgency, high trust. Make decisions quickly. Waiting for perfect data is often riskier than acting now.</p></div>
+    <div class="card"><div class="card-icon">🎯</div><h3>Bullet points win</h3><p>When you must write: bullets over paragraphs. Bold action items and questions. Keep it simple.</p></div>
+    <div class="card"><div class="card-icon">🚫</div><h3>No long meetings</h3><p>Meetings are for decisions and working sessions. We never do lengthy deck presentations.</p></div>
+  </div>
+</div>
+</div>
+
+<hr class="divider">
+
+<!-- SETUP -->
+<div id="setup">
+<div class="section reveal">
+  <div class="section-header">
+    <div class="section-num">05 — Tools & Account Setup</div>
+    <h2 class="section-title">Getting your accounts ready</h2>
+    <p class="section-sub">Follow these steps in order on your first day. IT will walk you through apps in training, but here's your complete roadmap.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="titem"><div class="tdot"></div><h4>Step 1 — Open your laptop</h4><p>Select your language, connect to wifi. A welcome screen will confirm the device is owned by Carewell Family Inc. Accept remote management to proceed.</p></div>
+    <div class="titem"><div class="tdot"></div><h4>Step 2 — Log into Gmail</h4><p>Open Chrome. Your email: <strong>firstname.lastname@carewell.com</strong>. Temp password: <strong>Welcome$2026</strong>. Change it immediately via LastPass.</p></div>
+    <div class="titem"><div class="tdot"></div><h4>Step 3 — Set up LastPass</h4><p>Find LastPass in your Chrome toolbar. Use it to generate, store, and share all passwords. Use Google Sign-In wherever available (Slack, Kustomer, Bubbles).</p></div>
+    <div class="titem"><div class="tdot"></div><h4>Step 4 — Accept app invitations</h4><p>Check your Carewell inbox for account invites. Accept them all and use Google Sign-In where possible. Log each password into LastPass.</p></div>
+  </div>
+
+  <div class="section-header" style="margin-top:3rem"><h3 style="font-size:1.1rem;font-weight:900;">Your core tools</h3></div>
+  <div class="tools-grid">
+    <div class="tool"><div class="tool-icon">📧</div><h4>Gmail</h4><p>@carewell.com</p></div>
+    <div class="tool"><div class="tool-icon">💬</div><h4>Slack</h4><p>Primary comms</p></div>
+    <div class="tool"><div class="tool-icon">📁</div><h4>Google Drive</h4><p>Docs & files</p></div>
+    <div class="tool"><div class="tool-icon">🔐</div><h4>LastPass</h4><p>Passwords</p></div>
+    <div class="tool"><div class="tool-icon">👥</div><h4>Rippling</h4><p>HR & benefits</p></div>
+    <div class="tool"><div class="tool-icon">📊</div><h4>Carta</h4><p>Equity portal</p></div>
+  </div>
+</div>
+</div>
+
+<hr class="divider">
+
+<!-- BENEFITS -->
+<div id="benefits">
+<div class="section reveal">
+  <div class="section-header">
+    <div class="section-num">06 — Benefits</div>
+    <h2 class="section-title">Supporting you where it matters most 💜</h2>
+    <p class="section-sub">Carewell believes meaningful work is the foundation of fulfillment — but we've also built a benefits package that genuinely supports your life. Enroll through <strong>Rippling</strong> within your first month.</p>
+  </div>
+
+  <div class="benefit-cat">🏥 Health & Well-being</div>
+  <div class="brow"><div class="bicon">🩺</div><div><h4>Medical — United Healthcare <span class="badge">3 plans</span></h4><p><strong>Base 5000 HSA</strong> (lowest premium, HSA eligible) · <strong>Mid 3000 Copay</strong> ($25 PCP / $75 specialist) · <strong>Buy-Up 1000 Copay</strong> (lowest deductible). All plans cover preventive care at 100% in-network.</p></div></div>
+  <div class="brow"><div class="bicon">🦷</div><div><h4>Dental — United Healthcare <span class="badge">PPO</span></h4><p>Preventive care at 100% (no deductible). Basic services at 80%, major at 50%. Orthodontics for kids up to 19 with $1,500 lifetime max.</p></div></div>
+  <div class="brow"><div class="bicon">👁️</div><div><h4>Vision — United Healthcare</h4><p>$10 exam copay in-network. $150 allowance for frames or contacts. Resets every calendar year.</p></div></div>
+  <div class="brow"><div class="bicon">💊</div><div><h4>HealthiestYou Virtual Care <span class="badge badge-g">Whole household</span></h4><p>Virtual doctor visits 7 days a week for everyone in your home — even those not on your plan. General medicine, dermatology, mental health (18+), back/neck care. Call 1-866-703-1259.</p></div></div>
+  <div class="brow"><div class="bicon">🧠</div><div><h4>Employee Assistance Program (EAP) <span class="badge badge-g">Free</span></h4><p>Through Guardian. Confidential support for personal, family, financial, or legal concerns available 7 days a week. 3 free face-to-face sessions per issue. Call 800.386.7055 or visit worklife.uprisehealth.com (code: worklife).</p></div></div>
+
+  <div class="benefit-cat">💰 Financial Health & Savings</div>
+  <div class="brow"><div class="bicon">💳</div><div><h4>Health Savings Account (HSA)</h4><p>Triple tax advantage on the Base HSA plan. Pre-tax contributions, tax-free growth, tax-free withdrawals. 2025 limits: $4,300 individual / $8,550 family. Funds roll over forever.</p></div></div>
+  <div class="brow"><div class="bicon">🏦</div><div><h4>401(k) & Roth — Ascensus</h4><p>Available from the first of the month after your start date. Change contributions anytime. Sign up through Rippling.</p></div></div>
+  <div class="brow"><div class="bicon">🛡️</div><div><h4>Life Insurance — Guardian <span class="badge badge-g">$50K free</span></h4><p>Basic Life & AD&D of $50,000 at no cost to you. Supplemental available for you, spouse, and children.</p></div></div>
+  <div class="brow"><div class="bicon">🤕</div><div><h4>Short-Term Disability <span class="badge badge-g">Company paid</span></h4><p>60% of pay for up to 13 weeks (max $1,000/week) in case of accident or illness. No cost to you.</p></div></div>
+  <div class="brow"><div class="bicon">🩼</div><div><h4>Long-Term Disability</h4><p>60% of pay (up to $5K/month under $100K salary; up to $7.5K/month for $100K+). Employee-paid, access rates in Rippling.</p></div></div>
+
+  <div class="benefit-cat">👨‍👩‍👧 Working Families</div>
+  <div class="brow"><div class="bicon">🤱</div><div><h4>Maternity Leave <span class="badge badge-o">13 weeks at 100%</span></h4><p>Birthing parents receive 100% compensation for 13 weeks. Carewell tops up state/insurance benefits to ensure full pay.</p></div></div>
+  <div class="brow"><div class="bicon">👶</div><div><h4>Parental Leave <span class="badge badge-o">4 weeks at 100%</span></h4><p>Non-birthing parents (including adoptive and foster) receive 100% pay for 4 weeks. Topped up by Carewell.</p></div></div>
+  <div class="brow"><div class="bicon">🛍️</div><div><h4>Employee Discount <span class="badge">15% off</span></h4><p>15% off all Carewell products, no cap on usage. Shop the products you help sell!</p></div></div>
+</div>
+</div>
+
+<hr class="divider">
+
+<!-- EQUITY -->
+<div id="equity">
+<div class="section reveal">
+  <div class="section-header">
+    <div class="section-num">07 — Equity & Ownership</div>
+    <h2 class="section-title">You're not just an employee — you're an owner 🚀</h2>
+    <p class="section-sub">Your Incentive Stock Options (ISOs) give you the right to buy Carewell shares at a locked-in strike price of <strong>$1.33/share</strong> — no matter how much the company grows. <em>Equity grants vary by role — your specific grant details will be outlined in your offer letter and accessible via Carta once issued.</em></p>
+  </div>
+
+  <div class="card-grid card-grid-auto" style="grid-template-columns:repeat(3,1fr);margin-bottom:2rem">
+    <div class="card"><div class="card-icon">🎯</div><h3>Strike price: $1.33</h3><p>Locked in forever for your current grant. As Carewell's value grows, so does the gap between what you pay and what it's worth.</p></div>
+    <div class="card"><div class="card-icon">📅</div><h3>4-year vesting</h3><p>25% vests after year one (the "cliff"). Then monthly over 3 more years until fully vested at year 4.</p></div>
+    <div class="card"><div class="card-icon">💻</div><h3>Managed on Carta</h3><p>You'll receive a Carta.com invite once your grant is issued. Exercise any vested options before the 10-year expiration.</p></div>
+  </div>
+
+  <h3 style="font-weight:900;font-size:1.1rem;color:var(--dp);margin-bottom:0.5rem;">What your equity could be worth</h3>
+  <p style="font-size:0.88rem;color:#777;margin-bottom:1rem;">Example scenarios based on a sample grant of 50,000 shares. Actual grant size depends on your role.</p>
+  <div class="eq-scenarios">
+    <div class="eq-s a">
+      <div class="eq-s-label">🚀 Scenario A — Home Run</div>
+      <div class="eq-s-val">$1.76M</div>
+      <div class="eq-s-desc">10x growth (Chewy-level exit at $3B). 50K shares × $35.10.</div>
+    </div>
+    <div class="eq-s b">
+      <div class="eq-s-label">📈 Scenario B — Steady Growth</div>
+      <div class="eq-s-val">$877K</div>
+      <div class="eq-s-desc">5x growth. Hit milestones consistently. 50K shares × $17.55.</div>
+    </div>
+    <div class="eq-s c">
+      <div class="eq-s-label">📊 Scenario C — Current Value</div>
+      <div class="eq-s-val">$175K</div>
+      <div class="eq-s-desc">1x. Current value at $3.51/share × 50K shares.</div>
+    </div>
+  </div>
+  <p style="font-size:0.78rem;color:#aaa;margin-top:0.6rem;">* Illustrative example only — based on a sample grant of 50,000 shares. Equity is role-dependent; your actual grant is detailed in your offer letter. No guarantee of future value. Always consult a tax advisor before exercising options.</p>
+
+  <div class="highlight" style="margin-top:2rem">
+    <h3>Why we're excited about Carewell's future</h3>
+    <p>Direct customer relationships · Predictable recurring revenue · 2x higher spend with customer interaction · Executive team from Chewy & Amazon · $150B addressable market · Largest healthcare distribution networks. When Carewell wins, you win.</p>
+  </div>
+</div>
+</div>
+
+<hr class="divider">
+
+<!-- POLICIES -->
+<div id="policies">
+<div class="section reveal">
+  <div class="section-header">
+    <div class="section-num">08 — Time Off & Policies</div>
+    <h2 class="section-title">Work well. Rest well. 🏖️</h2>
+    <p class="section-sub">We trust you to manage your own time responsibly. Take what you need — just plan ahead, communicate clearly, and stay accountable for your deliverables.</p>
+  </div>
+
+  <div class="fto-grid" style="margin-bottom:2rem">
+    <div class="fto-card"><div class="fto-icon">🏖️</div><h4>Flexible Time Off</h4><p>Soft cap of <strong>20 days/year</strong> for vacation, sick, personal, or mental health. Request through Rippling.</p></div>
+    <div class="fto-card"><div class="fto-icon">🎉</div><h4>6 Paid Holidays</h4><p>New Year's, Memorial Day, July 4th, Labor Day, Thanksgiving, Christmas.</p></div>
+    <div class="fto-card"><div class="fto-icon">🏠</div><h4>Fully Remote</h4><p>Work from anywhere, with 1–2 in-person core weeks per year to connect as a team.</p></div>
+  </div>
+
+  <h3 style="font-weight:800;color:var(--dp);margin-bottom:1rem;font-size:1.1rem;">FTO quick rules</h3>
+  <ul class="checklist">
+    <li><div class="cb"></div><span><strong>Double the notice:</strong> Taking 2 weeks? Give 4 weeks notice. Taking 2 days? Give 4 days notice.</span></li>
+    <li><div class="cb"></div><span><strong>Max 2 consecutive weeks</strong> at a time.</span></li>
+    <li><div class="cb"></div><span><strong>Max 5 days</strong> in your first 90 days of employment.</span></li>
+    <li><div class="cb"></div><span><strong>All time off must be approved</strong> by your manager via Rippling before it counts.</span></li>
+    <li><div class="cb"></div><span><strong>Set up coverage</strong> — don't leave your team without what they need while you're out.</span></li>
+    <li><div class="cb"></div><span><strong>Block your calendar</strong> and set an out-of-office auto-reply in Gmail.</span></li>
+    <li><div class="cb"></div><span>FTO is <strong>not accrued, not carried over</strong>, and not paid out at termination.</span></li>
+  </ul>
+</div>
+</div>
+
+<!-- CLOSING -->
+<div class="closing reveal">
+  <h2>You belong here.<br><span>Now let's build something great.</span></h2>
+  <p>Every single person on this team plays a real role in making life better for millions of caregivers across the country. That's not a tagline — it's the reason we show up every day. We are so genuinely excited to have you here.</p>
+  <p>Carewell is the kind of place where your work matters, your voice is heard, and the mission never gets old. No matter what your role is, you are part of the reason a family somewhere gets the help they need. That's worth showing up for.</p>
+  <div class="closing-cards">
+    <div class="closing-card">
+      <div class="cc-icon">💜</div>
+      <h4>You make a difference</h4>
+      <p>Every decision you make — big or small — ripples out to real families who depend on us.</p>
+    </div>
+    <div class="closing-card">
+      <div class="cc-icon">🚀</div>
+      <h4>We're just getting started</h4>
+      <p>The best chapters of the Carewell story are still ahead. You arrived at exactly the right time.</p>
+    </div>
+    <div class="closing-card">
+      <div class="cc-icon">🤝</div>
+      <h4>You're never alone</h4>
+      <p>This team has your back. Reach out, ask questions, and lean on the people around you.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">💜 Carewell</div>
+  <p style="margin-bottom:0.8rem;font-size:1rem;color:rgba(255,255,255,0.9);font-weight:600;">Be well. Carewell.</p>
+  <p>Questions about benefits? Contact <strong style="color:white">Tarah Kendall</strong> at Tarah.Kendall@carewell.com · 540.672.8057</p>
+  <p style="margin-top:0.5rem;font-size:0.78rem;opacity:0.5;">Confidential — for internal use only. © Carewell 2025.</p>
+</footer>
+
+<script>
+(function(){
+  const canvas=document.getElementById('confetti-canvas');
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  const colors=['#260080','#5825E5','#9E8FFF','#C8C0FF','#ffffff','#FFAB1A','#5AE0AF'];
+  const particles=[];
+  for(let i=0;i<120;i++){
+    particles.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height-canvas.height,
+      w:Math.random()*12+4,
+      h:Math.random()*6+3,
+      color:colors[Math.floor(Math.random()*colors.length)],
+      speed:Math.random()*3+1.5,
+      angle:Math.random()*360,
+      spin:Math.random()*6-3,
+      opacity:1
+    });
+  }
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(frame>200){particles.forEach(p=>p.opacity=Math.max(0,p.opacity-0.008));}
+    particles.forEach(p=>{
+      p.y+=p.speed; p.angle+=p.spin;
+      if(p.y>canvas.height){p.y=-20;p.opacity=frame<200?1:0;}
+      ctx.save();
+      ctx.globalAlpha=p.opacity;
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.angle*Math.PI/180);
+      ctx.fillStyle=p.color;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+    });
+    frame++;
+    if(frame<350) requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  draw();
+  window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+})();
+
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
